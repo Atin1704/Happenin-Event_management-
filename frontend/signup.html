@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en" class="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sign Up - HappenIn</title>
+  <script>
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme) {
+      document.documentElement.classList.add(savedTheme === 'dark' ? 'dark' : 'light');
+    } else {
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      document.documentElement.classList.add(prefersDark ? 'dark' : 'light');
+    }
+  </script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#8B5CF6',
+            accent: '#F43F5E',
+            secondary: '#06B6D4',
+            dark: {
+              DEFAULT: '#0F172A',
+              light: '#1E293B',
+              lighter: '#334155'
+            }
+          },
+          fontFamily: {
+            poppins: ['Poppins', 'sans-serif'],
+            inter: ['Inter', 'sans-serif'],
+            montserrat: ['Montserrat', 'sans-serif']
+          }
+        }
+      },
+      darkMode: 'class'
+    }
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Inter:wght@400;500&family=Montserrat:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+  <body class="font-inter bg-gray-50 dark:bg-dark transition-colors">
+  <div class="w-full flex justify-between items-center px-6 py-4 absolute top-0 left-0">
+    <a href="index.html" class="text-sm font-medium text-gray-600 dark:text-white/70 hover:text-primary">
+      ← Back to Home
+    </a>
+
+    <div class="flex items-center">
+      <a href="/" class="text-2xl font-montserrat font-bold bg-gradient-to-r from-primary via-accent to-secondary bg-clip-text text-transparent hover:opacity-80 transition-opacity">
+        Happen<span class="font-black">In</span>
+      </a>
+    </div>
+  </div>
+
+  <div class="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-md w-full space-y-6 bg-white dark:bg-dark-lighter/50 p-8 rounded-xl shadow-lg border border-gray-100 dark:border-white/10">
+      
+      <div class="text-center">
+        <h2 class="text-3xl font-bold text-gray-900 dark:text-white">Sign Up</h2>
+      </div>
+
+      <!-- Role Toggle -->
+      <div class="flex justify-center gap-8 text-sm font-semibold text-gray-700 dark:text-white/70">
+        <label>
+          <input type="radio" name="role" value="customer" checked onclick="toggleForm('customer')"> Customer
+        </label>
+        <label>
+          <input type="radio" name="role" value="organizer" onclick="toggleForm('organizer')"> Organizer
+        </label>
+      </div>
+
+      <!-- Customer Form -->
+      <form id="customerForm" class="space-y-4">
+        <input type="text" id="firstName" placeholder="First Name" required class="input-style">
+        <input type="text" id="lastName" placeholder="Last Name (Optional)" class="input-style">
+        <input type="text" id="username" placeholder="Username" required class="input-style">
+        <input type="text" id="contactNo" placeholder="Contact Number (Optional)" class="input-style">
+        <input type="email" id="emailID" placeholder="Email ID (Optional)" class="input-style">
+        <input type="password" id="password" placeholder="Password (min 8 characters)" required minlength="8" class="input-style">
+        <input type="password" id="confirmPassword" placeholder="Confirm Password" required minlength="8" oninput="validatePassword()" class="input-style relative">
+        <p id="passwordMismatch" class="text-sm text-red-500 hidden">Passwords do not match</p>
+        <button type="submit" class="btn-primary">Sign Up as Customer</button>
+      </form>
+
+      <!-- Organizer Form -->
+      <form id="organizerForm" class="space-y-4 hidden">
+        <input type="text" id="orgUsername" placeholder="Username" required class="input-style">
+        <input type="text" id="orgFirstName" placeholder="First Name" required class="input-style">
+        <input type="text" id="orgLastName" placeholder="Last Name (Optional)" class="input-style">
+        <input type="email" id="orgEmail" placeholder="Email ID" required class="input-style">
+        <input type="text" id="orgContact" placeholder="Contact Number" required class="input-style">
+        <input type="password" id="orgPassword" placeholder="Password (min 8 characters)" required minlength="8" class="input-style">
+        <input type="password" id="orgConfirmPassword" placeholder="Confirm Password" required minlength="8" oninput="validateOrgPassword()" class="input-style">
+        <p id="orgPasswordMismatch" class="text-sm text-red-500 hidden">Passwords do not match</p>
+        <button type="submit" class="btn-primary">Sign Up as Organizer</button>
+      </form>
+    </div>
+  </div>
+
+  <style>
+    .input-style {
+      display: block;
+      width: 100%;
+      padding: 0.75rem;
+      border-radius: 0.5rem;
+      border: 1px solid #ccc;
+      background-color: white;
+      color: black;
+    }
+
+    .dark .input-style {
+      background-color: rgba(255, 255, 255, 0.1);
+      border-color: rgba(255, 255, 255, 0.2);
+      color: white;
+    }
+
+    .btn-primary {
+      background: linear-gradient(to right, #8B5CF6, #F43F5E);
+      color: white;
+      width: 100%;
+      padding: 0.75rem;
+      border-radius: 0.5rem;
+      font-weight: 600;
+      transition: 0.3s ease;
+    }
+
+    .btn-primary:hover {
+      background: linear-gradient(to right, #7C3AED, #EC4899);
+      transform: scale(1.02);
+    }
+  </style>
+
+  <script>
+    function toggleForm(role) {
+      document.getElementById('customerForm').classList.toggle('hidden', role !== 'customer');
+      document.getElementById('organizerForm').classList.toggle('hidden', role !== 'organizer');
+    }
+
+    function validateCustomerForm(e) {
+      e.preventDefault();
+      const pass = document.getElementById("password").value;
+      const confirm = document.getElementById("confirmPassword").value;
+      const mismatch = document.getElementById("passwordMismatch");
+      mismatch.classList.toggle('hidden', pass === confirm);
+      if (pass !== confirm) return false;
+      alert("Customer registered!");
+      return true;
+    }
+
+    function validateOrganizerForm(e) {
+      e.preventDefault();
+      const pass = document.getElementById("orgPassword").value;
+      const confirm = document.getElementById("orgConfirmPassword").value;
+      const mismatch = document.getElementById("orgPasswordMismatch");
+      mismatch.classList.toggle('hidden', pass === confirm);
+      if (pass !== confirm) return false;
+      alert("Organizer registered!");
+      return true;
+    }
+
+    function validatePassword() {
+      const pass = document.getElementById("password").value;
+      const confirm = document.getElementById("confirmPassword").value;
+      document.getElementById("passwordMismatch").classList.toggle("hidden", pass === confirm);
+    }
+
+    function validateOrgPassword() {
+      const pass = document.getElementById("orgPassword").value;
+      const confirm = document.getElementById("orgConfirmPassword").value;
+      document.getElementById("orgPasswordMismatch").classList.toggle("hidden", pass === confirm);
+    }
+
+    window.onload = () => {
+      const role = new URLSearchParams(window.location.search).get("role");
+      if (role === "organizer") {
+        document.querySelector('input[value="organizer"]').checked = true;
+        toggleForm("organizer");
+      } else {
+        document.querySelector('input[value="customer"]').checked = true;
+        toggleForm("customer");
+      }
+    }
+  </script>
+  <script>
+    async function registerUser(isOrganizer) {
+      const payload = isOrganizer
+        ? {
+            username: document.getElementById("orgUsername").value,
+            password: document.getElementById("orgPassword").value,
+            confirmPassword: document.getElementById("orgConfirmPassword").value,
+            firstName: document.getElementById("orgFirstName").value,
+            lastName: document.getElementById("orgLastName").value,
+            emailID: document.getElementById("orgEmail").value,
+            contactNo: document.getElementById("orgContact").value,
+          }
+        : {
+            username: document.getElementById("username").value,
+            password: document.getElementById("password").value,
+            confirmPassword: document.getElementById("confirmPassword").value,
+            firstName: document.getElementById("firstName").value,
+            lastName: document.getElementById("lastName").value,
+            emailID: document.getElementById("emailID").value, 
+            contactNo: document.getElementById("contactNo").value,
+          };
+  
+      const endpoint = isOrganizer
+        ? "http://127.0.0.1:8000/api/organizer/signup/"
+        : "http://127.0.0.1:8000/api/signup/";
+  
+      try {
+        const res = await fetch(endpoint, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+        });
+  
+        const data = await res.json();
+        if (res.ok) {
+          alert("Signup successful!");
+          window.location.href = "login.html";
+        } else {
+          alert(data.error || data.detail || "Signup failed.");
+        }
+      } catch (err) {
+        alert("Network error.");
+      }
+    }
+  
+    // Attach to form submit
+    document.getElementById("customerForm").addEventListener("submit", function (e) {
+      e.preventDefault();
+      registerUser(false);
+    });
+  
+    document.getElementById("organizerForm").addEventListener("submit", function (e) {
+      e.preventDefault();
+      registerUser(true);
+    });
+  </script>  
+  
+</body>
+</html>

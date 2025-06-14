@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en" class="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Available Events - HappenIn</title>
+    <script>
+        const initialTheme = localStorage.getItem('theme');
+        if (initialTheme) {
+            document.documentElement.classList.add(initialTheme === 'dark' ? 'dark' : 'light');
+        } else {
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            document.documentElement.classList.add(prefersDark ? 'dark' : 'light');
+        }
+    </script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#8B5CF6',
+                        accent: '#F43F5E',
+                        secondary: '#06B6D4',
+                        dark: {
+                            DEFAULT: '#0F172A',
+                            light: '#1E293B',
+                            lighter: '#334155'
+                        }
+                    },
+                    fontFamily: {
+                        poppins: ['Poppins', 'sans-serif'],
+                        inter: ['Inter', 'sans-serif'],
+                        montserrat: ['Montserrat', 'sans-serif']
+                    }
+                }
+            },
+            darkMode: 'class'
+        }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Inter:wght@400;500&family=Montserrat:wght@600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body class="font-inter bg-gradient-to-br from-gray-50 to-white dark:from-dark-light dark:to-dark relative min-h-screen text-gray-900 dark:text-white transition-colors duration-300">
+    <!-- Header/Navigation -->
+    <header class="bg-white/50 dark:bg-dark/50 backdrop-blur-sm fixed w-full z-50 border-b border-gray-200/20 dark:border-white/5 transition-colors duration-300">
+        <nav class="container mx-auto px-6 py-4">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center">
+                    <a href="#" data-nav="home" class="text-2xl font-montserrat font-bold bg-gradient-to-r from-primary via-accent to-secondary bg-clip-text text-transparent hover:opacity-80 transition-opacity">
+                        Happen<span class="font-black">In</span>
+                    </a>
+                </div>
+                
+                <!-- Desktop Navigation -->
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="user_dashboard.html" data-nav="user_dashboard" class="text-gray-700 dark:text-white/70 hover:text-primary dark:hover:text-white transition-all hover:scale-105 transform">Dashboard</a>
+                    <a href="events.html" data-nav="events" class="text-gray-700 dark:text-white/70 hover:text-primary dark:hover:text-white transition-all hover:scale-105 transform">Events</a>
+                    <a href="available_events.html" data-nav="available_events" class="text-primary dark:text-white font-medium">Available Events</a>
+                    <div class="relative group">
+                        <button class="flex items-center space-x-1 text-gray-700 dark:text-white/70 hover:text-primary dark:hover:text-white">
+                            <img src="https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg" alt="Profile" class="w-8 h-8 rounded-full border-2 border-white dark:border-dark-light">
+                            <span>Sarah Wilson</span>
+                            <i class="fas fa-chevron-down text-xs transition-transform group-hover:rotate-180"></i>
+                        </button>
+                        <div class="absolute right-0 mt-2 w-48 bg-white dark:bg-dark-lighter rounded-xl shadow-lg border border-gray-200/20 dark:border-white/5 opacity-0 translate-y-2 invisible group-hover:opacity-100 group-hover:translate-y-0 group-hover:visible transition-all duration-300">
+                            <div class="p-4 border-b border-gray-200/20 dark:border-white/5">
+                                <p class="font-medium">Sarah Wilson</p>
+                                <p class="text-sm text-gray-600 dark:text-white/70">sarah@example.com</p>
+                            </div>
+                            <div class="p-2">
+                                <a href="profile.html" data-nav="profile" class="flex items-center space-x-2 p-2 hover:bg-gray-100 dark:hover:bg-dark-light rounded-lg transition-colors">
+                                    <i class="fas fa-user text-primary"></i>
+                                    <span>Profile</span>
+                                </a>
+                                <a href="settings.html" data-nav="settings" class="flex items-center space-x-2 p-2 hover:bg-gray-100 dark:hover:bg-dark-light rounded-lg transition-colors">
+                                    <i class="fas fa-cog text-primary"></i>
+                                    <span>Settings</span>
+                                </a>
+                                <a href="index.html" data-nav="logout" class="flex items-center space-x-2 p-2 hover:bg-gray-100 dark:hover:bg-dark-light rounded-lg transition-colors text-accent">
+                                    <i class="fas fa-sign-out-alt"></i>
+                                    <span>Logout</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="theme-toggle group w-[4.5rem] h-10 rounded-full bg-gray-100 dark:bg-dark-lighter relative cursor-pointer transition-all duration-300 border-2 border-gray-200 dark:border-white/20 hover:border-primary dark:hover:border-primary shadow-inner hover:shadow-primary/10" id="themeToggle" role="button" aria-label="Toggle theme">
+                        <div class="absolute w-8 h-8 bg-white dark:bg-dark shadow-lg dark:shadow-primary/20 rounded-full left-0.5 top-0.5 transform transition-all duration-500 ease-spring dark:translate-x-[2.25rem] flex items-center justify-center">
+                            <i class="fas fa-sun text-yellow-400 text-base absolute opacity-100 dark:opacity-0 transition-all duration-300 rotate-0 dark:-rotate-90"></i>
+                            <i class="fas fa-moon text-primary text-base absolute opacity-0 dark:opacity-100 transition-all duration-300 rotate-90 dark:rotate-0"></i>
+                        </div>
+                    </button>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <button class="md:hidden bg-dark-lighter/50 p-2 rounded-lg hover:bg-dark-lighter transition-colors">
+                    <i class="fas fa-bars text-xl text-white/70"></i>
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main class="pt-24 pb-12">
+        <div class="container mx-auto px-4">
+            <div class="flex items-center justify-between mb-8">
+                <div>
+                    <h1 class="text-3xl font-poppins font-bold mb-2">Available Events</h1>
+                    <p class="text-gray-600 dark:text-white/70">Events with tickets still available</p>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <button class="px-4 py-2 bg-gray-100 dark:bg-dark-lighter rounded-lg text-sm font-medium hover:bg-gray-200 dark:hover:bg-dark transition-colors flex items-center space-x-2">
+                        <i class="fas fa-filter text-primary"></i>
+                        <span>Filter</span>
+                    </button>
+                    <button class="px-4 py-2 bg-gray-100 dark:bg-dark-lighter rounded-lg text-sm font-medium hover:bg-gray-200 dark:hover:bg-dark transition-colors flex items-center space-x-2">
+                        <i class="fas fa-sort text-primary"></i>
+                        <span>Sort</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Available Events Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Event Card 1 -->
+                <div class="bg-white dark:bg-dark-lighter/50 backdrop-blur-sm rounded-3xl overflow-hidden hover:shadow-lg transition-all duration-300 border border-gray-200/20 dark:border-white/5">
+                    <div class="relative">
+                        <img src="https://images.pexels.com/photos/2747449/pexels-photo-2747449.jpeg" 
+                             alt="Summer Music Festival" 
+                             class="w-full h-48 object-cover">
+                        <div class="absolute top-4 right-4">
+                            <span class="bg-primary/20 backdrop-blur-sm text-primary px-3 py-1 rounded-full text-sm font-medium">
+                                50 tickets left
+                            </span>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex items-center mb-3">
+                            <span class="bg-primary/10 dark:bg-primary/20 text-primary px-4 py-1 rounded-full text-sm font-medium">Music</span>
+                            <span class="ml-auto text-sm font-medium text-gray-600 dark:text-white/70">₹999</span>
+                        </div>
+                        <h3 class="font-poppins font-semibold text-xl mb-2">Summer Music Festival</h3>
+                        <div class="flex items-center justify-between text-sm text-gray-600 dark:text-white/70 mb-4">
+                            <div class="flex items-center">
+                                <i class="fas fa-calendar-alt mr-2 text-primary"></i>
+                                <span>Aug 15, 2024</span>
+                            </div>
+                            <div class="flex items-center">
+                                <i class="fas fa-clock mr-2 text-primary"></i>
+                                <span>8:00 PM</span>
+                            </div>
+                        </div>
+                        <button class="w-full py-2 bg-primary text-white text-sm font-medium rounded-xl hover:bg-primary/90 transition-colors">
+                            Book Now
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Event Card 2 -->
+                <div class="bg-white dark:bg-dark-lighter/50 backdrop-blur-sm rounded-3xl overflow-hidden hover:shadow-lg transition-all duration-300 border border-gray-200/20 dark:border-white/5">
+                    <div class="relative">
+                        <img src="https://images.pexels.com/photos/7991579/pexels-photo-7991579.jpeg" 
+                             alt="Comedy Night" 
+                             class="w-full h-48 object-cover">
+                        <div class="absolute top-4 right-4">
+                            <span class="bg-accent/20 backdrop-blur-sm text-accent px-3 py-1 rounded-full text-sm font-medium">
+                                10 tickets left
+                            </span>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex items-center mb-3">
+                            <span class="bg-accent/10 dark:bg-accent/20 text-accent px-4 py-1 rounded-full text-sm font-medium">Comedy</span>
+                            <span class="ml-auto text-sm font-medium text-gray-600 dark:text-white/70">₹499</span>
+                        </div>
+                        <h3 class="font-poppins font-semibold text-xl mb-2">Stand-up Comedy Night</h3>
+                        <div class="flex items-center justify-between text-sm text-gray-600 dark:text-white/70 mb-4">
+                            <div class="flex items-center">
+                                <i class="fas fa-calendar-alt mr-2 text-primary"></i>
+                                <span>Sep 1, 2024</span>
+                            </div>
+                            <div class="flex items-center">
+                                <i class="fas fa-clock mr-2 text-primary"></i>
+                                <span>9:30 PM</span>
+                            </div>
+                        </div>
+                        <button class="w-full py-2 bg-primary text-white text-sm font-medium rounded-xl hover:bg-primary/90 transition-colors">
+                            Book Now
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Event Card 3 -->
+                <div class="bg-white dark:bg-dark-lighter/50 backdrop-blur-sm rounded-3xl overflow-hidden hover:shadow-lg transition-all duration-300 border border-gray-200/20 dark:border-white/5">
+                    <div class="relative">
+                        <img src="https://images.pexels.com/photos/787961/pexels-photo-787961.jpeg" 
+                             alt="Food Festival" 
+                             class="w-full h-48 object-cover">
+                        <div class="absolute top-4 right-4">
+                            <span class="bg-secondary/20 backdrop-blur-sm text-secondary px-3 py-1 rounded-full text-sm font-medium">
+                                100 tickets left
+                            </span>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex items-center mb-3">
+                            <span class="bg-secondary/10 dark:bg-secondary/20 text-secondary px-4 py-1 rounded-full text-sm font-medium">Food</span>
+                            <span class="ml-auto text-sm font-medium text-gray-600 dark:text-white/70">₹799</span>
+                        </div>
+                        <h3 class="font-poppins font-semibold text-xl mb-2">Global Food Festival</h3>
+                        <div class="flex items-center justify-between text-sm text-gray-600 dark:text-white/70 mb-4">
+                            <div class="flex items-center">
+                                <i class="fas fa-calendar-alt mr-2 text-primary"></i>
+                                <span>Oct 5, 2024</span>
+                            </div>
+                            <div class="flex items-center">
+                                <i class="fas fa-clock mr-2 text-primary"></i>
+                                <span>7:00 PM</span>
+                            </div>
+                        </div>
+                        <button class="w-full py-2 bg-primary text-white text-sm font-medium rounded-xl hover:bg-primary/90 transition-colors">
+                            Book Now
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pagination -->
+            <div class="mt-8 flex justify-center">
+                <nav class="flex items-center space-x-2">
+                    <button class="w-10 h-10 rounded-lg bg-gray-100 dark:bg-dark-lighter flex items-center justify-center hover:bg-gray-200 dark:hover:bg-dark transition-colors">
+                        <i class="fas fa-chevron-left text-sm"></i>
+                    </button>
+                    <button class="w-10 h-10 rounded-lg bg-primary text-white flex items-center justify-center">
+                        1
+                    </button>
+                    <button class="w-10 h-10 rounded-lg bg-gray-100 dark:bg-dark-lighter flex items-center justify-center hover:bg-gray-200 dark:hover:bg-dark transition-colors">
+                        2
+                    </button>
+                    <button class="w-10 h-10 rounded-lg bg-gray-100 dark:bg-dark-lighter flex items-center justify-center hover:bg-gray-200 dark:hover:bg-dark transition-colors">
+                        3
+                    </button>
+                    <button class="w-10 h-10 rounded-lg bg-gray-100 dark:bg-dark-lighter flex items-center justify-center hover:bg-gray-200 dark:hover:bg-dark transition-colors">
+                        <i class="fas fa-chevron-right text-sm"></i>
+                    </button>
+                </nav>
+            </div>
+        </div>
+    </main>
+
+    <!-- Theme Toggle Script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const themeToggle = document.getElementById('themeToggle');
+            
+            function setTheme(theme, animate = true) {
+                document.documentElement.setAttribute('data-theme', theme);
+                localStorage.setItem('theme', theme);
+                
+                const toggle = document.getElementById('themeToggle');
+                const sunIcon = toggle.querySelector('.fa-sun');
+                const moonIcon = toggle.querySelector('.fa-moon');
+                
+                if (theme === 'dark') {
+                    toggle.classList.add('dark');
+                    document.documentElement.classList.add('dark');
+                    if (animate) {
+                        sunIcon.style.transform = 'rotate(-90deg)';
+                        moonIcon.style.transform = 'rotate(0deg)';
+                    }
+                } else {
+                    toggle.classList.remove('dark');
+                    document.documentElement.classList.remove('dark');
+                    if (animate) {
+                        sunIcon.style.transform = 'rotate(0deg)';
+                        moonIcon.style.transform = 'rotate(90deg)';
+                    }
+                }
+            }
+
+            const currentTheme = localStorage.getItem('theme');
+            if (currentTheme) {
+                setTheme(currentTheme, false);
+            } else {
+                const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                setTheme(prefersDark ? 'dark' : 'light', false);
+            }
+            
+            themeToggle.addEventListener('click', () => {
+                const isDark = document.documentElement.classList.contains('dark');
+                setTheme(isDark ? 'light' : 'dark', true);
+            });
+            
+            window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+                if (!localStorage.getItem('theme')) {
+                    setTheme(e.matches ? 'dark' : 'light');
+                }
+            });
+        });
+    </script>
+    <script src="js/navigation.js"></script>
+</body>
+</html>

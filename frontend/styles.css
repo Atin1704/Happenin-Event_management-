@@ -1,0 +1,126 @@
+/* Base Styles */
+:root {
+    --bg-primary: #f9fafb;
+    --text-primary: #1f2937;
+    --card-bg: #ffffff;
+    --card-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+[data-theme="dark"] {
+    --bg-primary: #0F172A;
+    --text-primary: #ffffff;
+    --card-bg: #1E293B;
+    --card-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    transition: background-color 0.3s, color 0.3s;
+}
+
+/* Theme Toggle Styles */
+.theme-toggle {
+    width: 56px;
+    height: 28px;
+    border-radius: 14px;
+    background-color: #334155;
+    position: relative;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    z-index: 50;
+    overflow: hidden;
+}
+
+.theme-toggle::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to right, #8B5CF6, #F43F5E);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.theme-toggle.dark::before {
+    opacity: 1;
+}
+
+.theme-toggle::after {
+    content: '';
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background-color: #ffffff;
+    top: 2px;
+    left: 2px;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+}
+
+.theme-toggle.dark::after {
+    transform: translateX(24px);
+}
+
+.theme-toggle:hover {
+    transform: scale(1.05);
+}
+
+.theme-toggle i {
+    z-index: 2;
+    position: relative;
+}
+
+/* Theme Toggle Container */
+.fixed.top-4.right-4 {
+    z-index: 50;
+    position: fixed;
+    top: 1rem;
+    right: 1rem;
+    background-color: rgba(15, 23, 42, 0.3);
+    padding: 0.75rem;
+    border-radius: 1rem;
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    transition: all 0.3s ease;
+}
+
+.fixed.top-4.right-4:hover {
+    background-color: rgba(15, 23, 42, 0.4);
+    transform: scale(1.05);
+}
+
+/* Dark Mode Transitions */
+* {
+    transition-property: background-color, border-color, color, fill, stroke;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 0.3s;
+}
+
+/* Sidebar Styles */
+aside {
+    width: 250px; /* Fixed width for sidebar */
+}
+
+/* Main Content Styles */
+main {
+    flex: 1; /* Take remaining space */
+    padding: 20px; /* Padding for main content */
+}
+
+/* Drop-down Menu Styles */
+.relative:hover .absolute {
+    display: block; /* Show the drop-down on hover */
+}
+
+/* Event Card Styles */
+.bg-white {
+    background-color: white; /* Card background */
+    border-radius: 8px; /* Rounded corners */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Shadow effect */
+}

@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en" class="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - HappenIn</title>
+    <script>
+        // Apply theme immediately to prevent flash
+        const initialTheme = localStorage.getItem('theme');
+        if (initialTheme) {
+            document.documentElement.classList.add(initialTheme === 'dark' ? 'dark' : 'light');
+        } else {
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            document.documentElement.classList.add(prefersDark ? 'dark' : 'light');
+        }
+    </script>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#8B5CF6',    // Vibrant purple
+                        accent: '#F43F5E',     // Hot pink
+                        secondary: '#06B6D4',   // Cyan
+                        dark: {
+                            DEFAULT: '#0F172A', // Dark blue
+                            light: '#1E293B',   // Lighter dark blue
+                            lighter: '#334155'  // Even lighter dark blue
+                        }
+                    },
+                    fontFamily: {
+                        poppins: ['Poppins', 'sans-serif'],
+                        inter: ['Inter', 'sans-serif'],
+                        montserrat: ['Montserrat', 'sans-serif']
+                    }
+                }
+            },
+            darkMode: 'class'
+        }
+    </script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Inter:wght@400;500&family=Montserrat:wght@600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+  
+
+<body class="bg-gray-50 dark:bg-dark text-gray-800 dark:text-white">
+  <!-- Header -->
+  <header class="bg-white/50 dark:bg-dark/50 backdrop-blur-sm fixed w-full z-50 border-b border-gray-200/20 dark:border-white/5 transition-colors duration-300">
+    <nav class="container mx-auto px-6 py-4">
+        <div class="relative flex justify-between items-center">
+            <!-- Left: Back to Dashboard -->
+            <div class="flex items-center z-10">
+              <a href="user_dashboard.html" class="text-sm font-semibold text-gray-700 dark:text-white hover:text-primary transition-colors">
+                ← Back to Dashboard
+              </a>
+            </div>
+          
+            <!-- Center: HappenIn Branding (Absolutely Centered) -->
+            <div class="absolute left-1/2 transform -translate-x-1/2">
+              <a href="#" class="text-2xl font-montserrat font-bold bg-gradient-to-r from-primary via-accent to-secondary bg-clip-text text-transparent hover:opacity-80 transition-opacity">
+                Happen<span class="font-black">In</span>
+              </a>
+            </div>
+  
+        <!-- Right: Profile + Theme -->
+        <div class="hidden md:flex items-center space-x-8">
+          <a href="user_dashboard.html" class="text-primary  dark:text-white/70 hover:text-primary dark:hover:text-white transition-all hover:scale-105 transform">Dashboard</a>
+          <a href="events.html" class="text-primary  dark:text-white/70 hover:text-primary dark:hover:text-white transition-all hover:scale-105 transform">Events</a>
+          <div class="relative group">
+              <button class="flex items-center space-x-1 text-gray-700 dark:text-white/70 hover:text-primary dark:hover:text-white">
+                  <img src="https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg" alt="Profile" class="w-8 h-8 rounded-full border-2 border-white dark:border-dark-light">
+                  <span id="profileName">...</span>
+                  <i class="fas fa-chevron-down text-xs transition-transform group-hover:rotate-180"></i>
+              </button>
+              <div class="absolute right-0 mt-2 w-48 bg-white dark:bg-dark-lighter rounded-xl shadow-lg border border-gray-200/20 dark:border-white/5 opacity-0 translate-y-2 invisible group-hover:opacity-100 group-hover:translate-y-0 group-hover:visible transition-all duration-300">
+                  <div class="p-4 border-b border-gray-200/20 dark:border-white/5">
+                      <p class="font-medium" id="profileDropdownName">...</p>
+                      <p class="text-sm text-gray-600 dark:text-white/70" id="profileDropdownEmail">...</p>
+                  </div>
+                  <div class="p-2">
+                      <a href="organiser_settings.html" class="flex items-center space-x-2 p-2 hover:bg-gray-100 dark:hover:bg-dark-light rounded-lg transition-colors">
+                          <i class="fas fa-user text-primary"></i>
+                          <span>Profile</span>
+                      </a>
+                      <a href="index.html" class="flex items-center space-x-2 p-2 hover:bg-gray-100 dark:hover:bg-dark-light rounded-lg transition-colors text-accent">
+                          <i class="fas fa-sign-out-alt"></i>
+                          <span>Logout</span>
+                      </a>
+                  </div>
+              </div>
+          </div>
+          <button class="theme-toggle group w-[4.5rem] h-10 rounded-full bg-gray-100 dark:bg-dark-lighter relative cursor-pointer transition-all duration-300 border-2 border-gray-200 dark:border-white/20 hover:border-primary dark:hover:border-primary shadow-inner hover:shadow-primary/10" id="themeToggle" role="button" aria-label="Toggle theme">
+              <div class="absolute w-8 h-8 bg-white dark:bg-dark shadow-lg dark:shadow-primary/20 rounded-full left-0.5 top-0.5 transform transition-all duration-500 ease-spring dark:translate-x-[2.25rem] flex items-center justify-center">
+                  <i class="fas fa-sun text-yellow-400 text-base absolute opacity-100 dark:opacity-0 transition-all duration-300 rotate-0 dark:-rotate-90"></i>
+                  <i class="fas fa-moon text-primary text-base absolute opacity-0 dark:opacity-100 transition-all duration-300 rotate-90 dark:rotate-0"></i>
+              </div>
+          </button>
+        </div>
+
+    </div>
+  
+        <!-- Mobile Menu -->
+        <button class="md:hidden bg-dark-lighter/50 p-2 rounded-lg hover:bg-dark-lighter transition-colors">
+          <i class="fas fa-bars text-xl text-white/70"></i>
+        </button>
+      </div>
+    </nav>
+  </header>
+
+    <!-- Main Content -->
+    <main class="max-w-4xl mx-auto px-4 py-10">
+        <div class="bg-white dark:bg-dark-lighter/50 rounded-2xl shadow p-8 space-y-6 border border-gray-100 dark:border-white/10">
+          <h1 id="eventName" class="text-3xl font-bold text-gray-800 dark:text-white">Loading...</h1>
+          <p id="eventCategory" class="text-sm text-accent font-medium">Category: </p>
+          <p id="eventDateTime" class="text-gray-600 dark:text-white/70">Date & Time: </p>
+          <p id="eventVenue" class="text-gray-600 dark:text-white/70">Venue: </p>
+          <p id="eventPrice" class="text-gray-600 dark:text-white/70">Ticket Price: </p>
+      
+          <form id="registerForm" class="space-y-4">
+            <div>
+              <label for="tickets" class="block text-sm font-medium text-gray-700 dark:text-white">Number of Tickets</label>
+              <input type="number" id="tickets" name="tickets" min="1" required
+                     class="mt-1 p-2 w-full rounded-lg border border-gray-300 dark:border-white/10 bg-white dark:bg-dark/40 text-gray-900 dark:text-white">
+            </div>
+      
+            <div>
+              <label for="paymentMethod" class="block text-sm font-medium text-gray-700 dark:text-white">Payment Method</label>
+              <select id="paymentMethod" name="paymentMethod" required
+                      class="mt-1 block w-full p-2 rounded-lg border border-gray-300 dark:border-white/10 bg-white dark:bg-dark/40 text-gray-900 dark:text-white">
+                <option value="Wallet">Wallet</option>
+                <option value="Card">Card</option>
+              </select>
+            </div>
+      
+            <button type="submit"
+                    class="w-full bg-primary hover:bg-primary/90 text-white py-3 rounded-lg font-semibold transition">
+              Register Now
+            </button>
+      
+            <div id="errorMessage" class="text-red-500 text-sm mt-2 hidden"></div>
+          </form>
+        </div>
+      </main>
+      
+
+    <!-- Theme Toggle Script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+          const themeToggle = document.getElementById('themeToggle');
+          
+          // Function to update theme with animation
+          function setTheme(theme, animate = true) {
+              document.documentElement.setAttribute('data-theme', theme);
+              localStorage.setItem('theme', theme);
+              
+              const toggle = document.getElementById('themeToggle');
+              const sunIcon = toggle.querySelector('.fa-sun');
+              const moonIcon = toggle.querySelector('.fa-moon');
+              
+              if (theme === 'dark') {
+                  toggle.classList.add('dark');
+                  document.documentElement.classList.add('dark');
+                  if (animate) {
+                      sunIcon.style.transform = 'rotate(-90deg)';
+                      moonIcon.style.transform = 'rotate(0deg)';
+                  } else {
+                      sunIcon.style.transform = 'rotate(-90deg)';
+                      moonIcon.style.transform = 'rotate(0deg)';
+                      sunIcon.style.transition = 'none';
+                      moonIcon.style.transition = 'none';
+                      requestAnimationFrame(() => {
+                          sunIcon.style.transition = '';
+                          moonIcon.style.transition = '';
+                      });
+                  }
+              } else {
+                  toggle.classList.remove('dark');
+                  document.documentElement.classList.remove('dark');
+                  if (animate) {
+                      sunIcon.style.transform = 'rotate(0deg)';
+                      moonIcon.style.transform = 'rotate(90deg)';
+                  } else {
+                      sunIcon.style.transform = 'rotate(0deg)';
+                      moonIcon.style.transform = 'rotate(90deg)';
+                      sunIcon.style.transition = 'none';
+                      moonIcon.style.transition = 'none';
+                      requestAnimationFrame(() => {
+                          sunIcon.style.transition = '';
+                          moonIcon.style.transition = '';
+                      });
+                  }
+              }
+          }
+    
+          // Apply theme immediately without animation
+          const currentTheme = localStorage.getItem('theme');
+          if (currentTheme) {
+              setTheme(currentTheme, false);
+          } else {
+              const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+              setTheme(prefersDark ? 'dark' : 'light', false);
+          }
+          
+          // Toggle theme on click with animation
+          themeToggle.addEventListener('click', () => {
+              const isDark = document.documentElement.classList.contains('dark');
+              const newTheme = isDark ? 'light' : 'dark';
+              
+              // Add transition class for smooth animation
+              themeToggle.classList.add('transitioning');
+              
+              // Apply theme with animation
+              setTheme(newTheme, true);
+              
+              // Remove transition class after animation
+              setTimeout(() => {
+                  themeToggle.classList.remove('transitioning');
+              }, 500);
+          });
+          
+          // Listen for system theme changes
+          window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+              if (!localStorage.getItem('theme')) {
+                  setTheme(e.matches ? 'dark' : 'light');
+              }
+          });
+      });
+      </script>
+      <script>
+        document.addEventListener("DOMContentLoaded", async () => {
+          const userData = JSON.parse(localStorage.getItem("user"));
+          const profileNameEl = document.getElementById("profileName");
+          const profileDNameEl = document.getElementById("profileDropdownName");
+          const profileEmailEl = document.getElementById("profileDropdownEmail");
+    
+          if (!userData || !userData.uid) {
+            return;
+          }
+    
+          try {
+            const res = await fetch(`http://127.0.0.1:8000/api/user/${userData.uid}/`);
+            if (!res.ok) throw new Error("Failed to fetch user details");
+    
+            const orgData = await res.json();
+            profileNameEl.textContent = orgData.firstName || "User";
+            profileDNameEl.textContent = orgData.firstName || "User";
+            profileEmailEl.textContent = orgData.emailID || "user@example.com";
+    
+          } catch (err) {
+            console.error("Error loading user name:", err);
+          }
+        });
+      </script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", async () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      const eventId = urlParams.get('id');
+      const user = JSON.parse(localStorage.getItem("user"));
+      const errorMsg = document.getElementById("errorMessage");
+  
+      if (!eventId || !user || !user.uid) {
+        document.body.innerHTML = "<p class='text-center text-red-500'>Missing event or user information.</p>";
+        return;
+      }
+  
+      // Fetch event details and populate
+      try {
+        const res = await fetch(`http://127.0.0.1:8000/api/event/${eventId}/`);
+        if (!res.ok) throw new Error("Failed to load event");
+        const event = await res.json();
+  
+        document.getElementById("eventName").textContent = event.eventName;
+        document.getElementById("eventCategory").textContent = `Category: ${event.category}`;
+        document.getElementById("eventDateTime").textContent = `Date & Time: ${event.startDate} ${event.startTime}`;
+        document.getElementById("eventVenue").textContent = `Venue ID: ${event.venue}`;
+        document.getElementById("eventPrice").textContent = `₹${parseFloat(event.ticketPrice).toFixed(2)}`;
+        document.getElementById("tickets").max = event.maxAttendees - event.ticketsSold;
+  
+      } catch (err) {
+        document.body.innerHTML = `<p class='text-center text-red-500'>Unable to load event. Please try again later.</p>`;
+        console.error(err);
+      }
+  
+      // Redirect to payment page
+      document.getElementById("registerForm").addEventListener("submit", (e) => {
+        e.preventDefault();
+        errorMsg.classList.add("hidden");
+  
+        const ticketCount = parseInt(document.getElementById("tickets").value);
+        const paymentMethod = document.getElementById("paymentMethod").value;
+  
+        if (!ticketCount || ticketCount < 1) {
+          errorMsg.textContent = "Please select a valid number of tickets.";
+          errorMsg.classList.remove("hidden");
+          return;
+        }
+  
+        const paymentUrl = `payment.html?user_id=${user.uid}&event_id=${eventId}&tickets=${ticketCount}&method=${paymentMethod}&event_name=${encodeURIComponent(event.eventName)}&price=${event.ticketPrice}`;
+        window.location.href = paymentUrl;
+      });
+    });
+  </script>
+       
+</body>
+</html>

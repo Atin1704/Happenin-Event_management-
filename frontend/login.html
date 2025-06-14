@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en" class="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HappenIn - Where Moments Turn into Memories</title>
+    <script>
+        // Apply theme immediately to prevent flash
+        const initialTheme = localStorage.getItem('theme');
+        if (initialTheme) {
+            document.documentElement.classList.add(initialTheme === 'dark' ? 'dark' : 'light');
+        } else {
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            document.documentElement.classList.add(prefersDark ? 'dark' : 'light');
+        }
+    </script>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .bg-grid-slate-100 {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32' width='32' height='32' fill='none' stroke='rgb(241 245 249 / 0.1)'%3E%3Cpath d='M0 .5H31.5V32'/%3E%3C/svg%3E");
+        }
+        .theme-toggle.transitioning {
+            pointer-events: none;
+        }
+        .theme-toggle.transitioning div {
+            transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .theme-toggle.transitioning i {
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+    </style>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#8B5CF6',    // Vibrant purple
+                        accent: '#F43F5E',     // Hot pink
+                        secondary: '#06B6D4',   // Cyan
+                        dark: {
+                            DEFAULT: '#0F172A', // Dark blue
+                            light: '#1E293B',   // Lighter dark blue
+                            lighter: '#334155'  // Even lighter dark blue
+                        }
+                    },
+                    fontFamily: {
+                        poppins: ['Poppins', 'sans-serif'],
+                        inter: ['Inter', 'sans-serif'],
+                        montserrat: ['Montserrat', 'sans-serif']
+                    },
+                    transitionTimingFunction: {
+                        'spring': 'cubic-bezier(0.4, 0, 0.2, 1)'
+                    }
+                }
+            },
+            darkMode: 'class'
+        }
+    </script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Inter:wght@400;500&family=Montserrat:wght@600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<html lang="en" class="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - HappenIn</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#8B5CF6',    // Vibrant purple
+                        accent: '#F43F5E',     // Hot pink
+                        secondary: '#06B6D4',   // Cyan
+                        dark: {
+                            DEFAULT: '#0F172A', // Dark blue
+                            light: '#1E293B',   // Lighter dark blue
+                            lighter: '#334155'  // Even lighter dark blue
+                        }
+                    },
+                    fontFamily: {
+                        poppins: ['Poppins', 'sans-serif'],
+                        inter: ['Inter', 'sans-serif'],
+                        montserrat: ['Montserrat', 'sans-serif']
+                    }
+                }
+            },
+            darkMode: 'class'
+        }
+    </script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Inter:wght@400;500&family=Montserrat:wght@600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="font-inter bg-gray-50 dark:bg-dark transition-colors duration-300">
+    <!-- Theme Toggle Button -->
+    <div class="fixed top-4 right-4 p-2 bg-white/10 backdrop-blur-md rounded-2xl shadow-lg border border-white/20">
+        <div class="theme-toggle group relative" id="themeToggle" role="button" aria-label="Toggle theme">
+            <i class="fas fa-sun absolute left-1.5 top-1.5 text-yellow-400 opacity-100 transition-opacity dark:opacity-0 text-sm"></i>
+            <i class="fas fa-moon absolute right-1.5 top-1.5 text-slate-200 opacity-0 transition-opacity dark:opacity-100 text-sm"></i>
+        </div>
+    </div>
+
+    <div class="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-md w-full space-y-8 bg-white dark:bg-dark-lighter/50 backdrop-blur-sm p-8 rounded-xl shadow-lg dark:shadow-[0_0_30px_rgba(139,92,246,0.1)] border border-gray-100 dark:border-white/5">
+            <div>
+                <div class="flex justify-center mb-6">
+                    <div class="bg-gray-100 dark:bg-dark-light rounded-full p-1 flex">
+                        <button id="userLoginBtn" class="px-4 py-2 rounded-full font-medium transition-colors text-primary bg-white dark:bg-dark shadow">User</button>
+                        <button id="organizerLoginBtn" class="px-4 py-2 rounded-full font-medium transition-colors text-gray-600 dark:text-white/70">Organizer</button>
+                    </div>
+                </div>
+                <h2 class="text-center text-3xl font-extrabold text-gray-900 dark:text-white">
+                    Sign in to Continue
+                </h2>
+                <p class="mt-2 text-center text-sm text-gray-600 dark:text-white/70" id="loginTypeDesc">
+                    Access your personal account
+                </p>
+            </div>
+            <form id="loginForm" class="mt-8 space-y-6">
+                <div class="rounded-md shadow-sm space-y-4">
+                    <div>
+                        <input id="username" name="username" type="text" required 
+                               class="appearance-none rounded-lg relative block w-full px-3 py-2 border border-gray-300 dark:border-white/10 placeholder-gray-500 dark:placeholder-white/50 text-gray-900 dark:text-white bg-white dark:bg-dark-lighter/50 focus:outline-none focus:ring-primary focus:border-primary focus:z-10 sm:text-sm transition-colors"
+                               placeholder="Username">
+                    </div>
+                    <div>
+                        <input id="password" name="password" type="password" required 
+                               class="appearance-none rounded-lg relative block w-full px-3 py-2 border border-gray-300 dark:border-white/10 placeholder-gray-500 dark:placeholder-white/50 text-gray-900 dark:text-white bg-white dark:bg-dark-lighter/50 focus:outline-none focus:ring-primary focus:border-primary focus:z-10 sm:text-sm transition-colors"
+                               placeholder="Password">
+                    </div>
+                </div>
+
+                <div>
+                    <button type="submit" 
+                            class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-gradient-to-r from-primary to-accent hover:from-primary/90 hover:to-accent/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary transition-all duration-300 hover:shadow-[0_0_20px_rgba(139,92,246,0.3)] hover:scale-[1.02]">
+                        Sign in
+                    </button>
+                    <p class="mt-2 text-center text-sm text-gray-600 dark:text-white/70" id="loginTypeDesc">
+                        Don't have an account? 
+                        <a href="signup.html" class="font-medium text-primary hover:text-primary/70">
+                            Sign up
+                        </a>
+                    </p>
+                </div>
+
+                <div>
+                    <p class="mt-2 text-center text-sm text-gray-600 dark:text-white/70" id="loginTypeDesc">
+                        You The Admin?
+                        <a href="adminlogin.html" class="font-medium text-primary hover:text-primary/70">
+                            Login As the Admin
+                        </a>
+                    </p>
+                </div>
+            </form>
+            <div class="text-center">
+                <a href="index.html" class="text-sm text-gray-600 dark:text-white/70 hover:text-primary">
+                    Back to Home
+                </a>
+            </div>
+            <div id="errorMessage" class="text-red-500 text-center text-sm hidden"></div>
+        </div>
+    </div>
+
+    <script>
+        let isOrganizerLogin = false;
+        const API_ENDPOINTS = {
+            user: 'http://127.0.0.1:8000/api/login/',
+            organizer: 'http://127.0.0.1:8000/api/organizer/login/'
+        };
+
+        document.getElementById('userLoginBtn').addEventListener('click', (e) => {
+            e.preventDefault();
+            toggleLoginType(false);
+        });
+
+        document.getElementById('organizerLoginBtn').addEventListener('click', (e) => {
+            e.preventDefault();
+            toggleLoginType(true);
+        });
+
+        function toggleLoginType(organizer) {
+            isOrganizerLogin = organizer;
+            const userBtn = document.getElementById('userLoginBtn');
+            const orgBtn = document.getElementById('organizerLoginBtn');
+            const desc = document.getElementById('loginTypeDesc');
+
+            if (organizer) {
+                userBtn.classList.remove('text-primary', 'bg-white', 'dark:bg-dark', 'shadow');
+                userBtn.classList.add('text-gray-600', 'dark:text-white/70');
+                orgBtn.classList.add('text-primary', 'bg-white', 'dark:bg-dark', 'shadow');
+                orgBtn.classList.remove('text-gray-600', 'dark:text-white/70');
+                desc.textContent = 'Access your organizer account';
+            } else {
+                orgBtn.classList.remove('text-primary', 'bg-white', 'dark:bg-dark', 'shadow');
+                orgBtn.classList.add('text-gray-600', 'dark:text-white/70');
+                userBtn.classList.add('text-primary', 'bg-white', 'dark:bg-dark', 'shadow');
+                userBtn.classList.remove('text-gray-600', 'dark:text-white/70');
+                desc.textContent = 'Access your personal account';
+            }
+        }
+
+        // Handle form submission
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const errorElement = document.getElementById('errorMessage');
+            errorElement.classList.add('hidden');
+
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            try {
+                const endpoint = isOrganizerLogin ? API_ENDPOINTS.organizer : API_ENDPOINTS.user;
+                const response = await fetch(endpoint, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ username, password }),
+                });
+
+                const data = await response.json();
+                
+                if (response.ok) {
+                    // Store user info and redirect
+                    localStorage.setItem('user', JSON.stringify(data));
+                    window.location.href = isOrganizerLogin ? 
+                        'organizer_dashboard.html' : 
+                        'user_dashboard.html';
+                } else {
+                    throw new Error(data.detail || 'Login failed');
+                }
+            } catch (error) {
+                errorElement.textContent = error.message;
+                errorElement.classList.remove('hidden');
+            }
+        });
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const themeToggle = document.getElementById('themeToggle');
+            
+            // Function to update theme with animation
+            function setTheme(theme, animate = true) {
+                document.documentElement.setAttribute('data-theme', theme);
+                localStorage.setItem('theme', theme);
+                
+                const toggle = document.getElementById('themeToggle');
+                const sunIcon = toggle.querySelector('.fa-sun');
+                const moonIcon = toggle.querySelector('.fa-moon');
+                
+                if (theme === 'dark') {
+                    toggle.classList.add('dark');
+                    document.documentElement.classList.add('dark');
+                    if (animate) {
+                        sunIcon.style.transform = 'rotate(-90deg)';
+                        moonIcon.style.transform = 'rotate(0deg)';
+                    } else {
+                        sunIcon.style.transform = 'rotate(-90deg)';
+                        moonIcon.style.transform = 'rotate(0deg)';
+                        sunIcon.style.transition = 'none';
+                        moonIcon.style.transition = 'none';
+                        requestAnimationFrame(() => {
+                            sunIcon.style.transition = '';
+                            moonIcon.style.transition = '';
+                        });
+                    }
+                } else {
+                    toggle.classList.remove('dark');
+                    document.documentElement.classList.remove('dark');
+                    if (animate) {
+                        sunIcon.style.transform = 'rotate(0deg)';
+                        moonIcon.style.transform = 'rotate(90deg)';
+                    } else {
+                        sunIcon.style.transform = 'rotate(0deg)';
+                        moonIcon.style.transform = 'rotate(90deg)';
+                        sunIcon.style.transition = 'none';
+                        moonIcon.style.transition = 'none';
+                        requestAnimationFrame(() => {
+                            sunIcon.style.transition = '';
+                            moonIcon.style.transition = '';
+                        });
+                    }
+                }
+            }
+
+            // Apply theme immediately without animation
+            const currentTheme = localStorage.getItem('theme');
+            if (currentTheme) {
+                setTheme(currentTheme, false);
+            } else {
+                const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                setTheme(prefersDark ? 'dark' : 'light', false);
+            }
+            
+            // Toggle theme on click with animation
+            themeToggle.addEventListener('click', () => {
+                const isDark = document.documentElement.classList.contains('dark');
+                const newTheme = isDark ? 'light' : 'dark';
+                
+                // Add transition class for smooth animation
+                themeToggle.classList.add('transitioning');
+                
+                // Apply theme with animation
+                setTheme(newTheme, true);
+                
+                // Remove transition class after animation
+                setTimeout(() => {
+                    themeToggle.classList.remove('transitioning');
+                }, 500);
+            });
+            
+            // Listen for system theme changes
+            window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+                if (!localStorage.getItem('theme')) {
+                    setTheme(e.matches ? 'dark' : 'light');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
