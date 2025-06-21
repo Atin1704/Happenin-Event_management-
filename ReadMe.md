@@ -55,18 +55,20 @@ For detailed features and functional specifications, see the **Business Requirem
    git clone https://github.com/Atin1704/Happenin-Event_management-.git
    cd Happenin-Event_management-
 
-2. **Backend Setup** 
+2. **Backend Setup**
+   ```bash
    cd backend
    pip install -r requirements.txt
    cp .env.example .env   # configure your DB and secret keys
    python manage.py migrate
    python manage.py runserver
 
-3. **Frontend Setup** 
+4. **Frontend Setup**
+   ```bash
    cd ../frontend
    # serve `index.html` via your favorite static server, or open directly in browser
 
-4. **Database**
+5. **Database**
    Ensure PostgreSQL is running.
 
 ---
